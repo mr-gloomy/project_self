@@ -84,42 +84,44 @@
 						<div class="tab-pane fade show active" id="pills-description"
 							role="tabpanel" aria-labelledby="pills-description-tab">
 							<div class="row">
+								<c:forEach var="option" items="${cDTO.car_op.split(',') }">
 								<div class="col-md-4">
 									<ul class="features">
-										<li class="check"><span class="ion-ios-checkmark"></span>Airconditions</li>
-										<li class="check"><span class="ion-ios-checkmark"></span>Child
-											Seat</li>
-										<li class="check"><span class="ion-ios-checkmark"></span>GPS</li>
-										<li class="check"><span class="ion-ios-checkmark"></span>Luggage</li>
-										<li class="check"><span class="ion-ios-checkmark"></span>Music</li>
+									<c:if test="${not empty option }">
+										<li class="check"><span class="ion-ios-checkmark"></span>${option }</li>
+									</c:if>
+									<c:if test="${empty option }">
+										<li class="remove"><span class="ion-ios-close"></span>${option }</li>
+									</c:if>
 									</ul>
 								</div>
-								<div class="col-md-4">
-									<ul class="features">
-										<li class="check"><span class="ion-ios-checkmark"></span>Seat
-											Belt</li>
-										<li class="remove"><span class="ion-ios-close"></span>Sleeping
-											Bed</li>
-										<li class="check"><span class="ion-ios-checkmark"></span>Water</li>
-										<li class="check"><span class="ion-ios-checkmark"></span>Bluetooth</li>
-										<li class="remove"><span class="ion-ios-close"></span>Onboard
-											computer</li>
-									</ul>
-								</div>
-								<div class="col-md-4">
-									<ul class="features">
-										<li class="check"><span class="ion-ios-checkmark"></span>Audio
-											input</li>
-										<li class="check"><span class="ion-ios-checkmark"></span>Long
-											Term Trips</li>
-										<li class="check"><span class="ion-ios-checkmark"></span>Car
-											Kit</li>
-										<li class="check"><span class="ion-ios-checkmark"></span>Remote
-											central locking</li>
-										<li class="check"><span class="ion-ios-checkmark"></span>Climate
-											control</li>
-									</ul>
-								</div>
+									</c:forEach>
+<!-- 								<div class="col-md-4"> -->
+<!-- 									<ul class="features"> -->
+<!-- 										<li class="check"><span class="ion-ios-checkmark"></span>Seat -->
+<!-- 											Belt</li> -->
+<!-- 										<li class="remove"><span class="ion-ios-close"></span>Sleeping -->
+<!-- 											Bed</li> -->
+<!-- 										<li class="check"><span class="ion-ios-checkmark"></span>Water</li> -->
+<!-- 										<li class="check"><span class="ion-ios-checkmark"></span>Bluetooth</li> -->
+<!-- 										<li class="remove"><span class="ion-ios-close"></span>Onboard -->
+<!-- 											computer</li> -->
+<!-- 									</ul> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-md-4"> -->
+<!-- 									<ul class="features"> -->
+<!-- 										<li class="check"><span class="ion-ios-checkmark"></span>Audio -->
+<!-- 											input</li> -->
+<!-- 										<li class="check"><span class="ion-ios-checkmark"></span>Long -->
+<!-- 											Term Trips</li> -->
+<!-- 										<li class="check"><span class="ion-ios-checkmark"></span>Car -->
+<!-- 											Kit</li> -->
+<!-- 										<li class="check"><span class="ion-ios-checkmark"></span>Remote -->
+<!-- 											central locking</li> -->
+<!-- 										<li class="check"><span class="ion-ios-checkmark"></span>Climate -->
+<!-- 											control</li> -->
+<!-- 									</ul> -->
+<!-- 								</div> -->
 							</div>
 						</div>
 

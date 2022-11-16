@@ -104,7 +104,7 @@
 								<a
 									href="./indexPro.jsp?cars=${cars }"
 									class="btn btn-primary py-2 mr-1">예약하기</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">차량상세정보
+									href="./ReviewListAction.rev?car_code=${cars.car_code }" class="btn btn-secondary py-2 ml-1">차량상세정보
 								</a>
     						</p>
     					</div>

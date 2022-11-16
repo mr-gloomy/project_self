@@ -1,12 +1,12 @@
 package com.taiso.review.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.taiso.car.db.CarDAO;
 import com.taiso.review.db.ReviewDAO;
 
 public class ReviewListAction implements Review {
@@ -31,6 +31,11 @@ public class ReviewListAction implements Review {
 		
 		// 디비에 등록된 글 개수 불러오기
 		int cnt = rDAO.getReviewCount();
+		// 전달된 car_code 정보 저장
+		int car_code = Integer.parseInt(request.getParameter("car_code"));
+		
+		CarDAO cDAO = new CarDAO();
+		
 		
 		// 디비에 등록된 모든 글 들고오기
 		List reviewList = rDAO.getReviewList();
@@ -39,8 +44,9 @@ public class ReviewListAction implements Review {
 		// int rev_num = Integer.parseInt(request.getParameter("rev_num"));
 		
 		// 세션에 저장
-		session.setAttribute("cnt", cnt);
-		session.setAttribute("reviewList", reviewList);
+		request.setAttribute("cnt", cnt);
+		request.setAttribute("reviewList", reviewList);
+		request.setAttribute("cDTO", cDAO.getCar(car_code));
 		// session.setAttribute("rev_num", rev_num);
 		
 		// 페이지 이동

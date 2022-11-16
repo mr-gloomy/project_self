@@ -61,34 +61,42 @@
     					<div class="d-flex">
 							<div class="form-group mr-2">
 						        <label for="" class="label">대여일</label><br>
-						        <input type="text" class="form-control" name="rez_pick_date" id="book_start_date" placeholder="Date">
+						        <input type="text" class="form-control" name="rez_pick_date" id="start_date" placeholder="Date">
 							</div>
-							<div class="form-group mr-2">
+							<div class="form-group mr-3">
 						        <label for="" class="label">반납일</label><br>
-						        <input type="text" class="form-control" name="rez_off_date" id="book_off_date" placeholder="Date">
+						        <input type="text" class="form-control" name="rez_off_date" id="off_date" placeholder="Date">
 							</div>
 						</div>	       		
-						<label for="" class="label" id="datealert"></label><br>
+						<label for="" class="label" id="datealert">
+							<h7>단기렌트는 28일까지만 가능합니다.</h7>
+						</label><br>
 						<div class="d-flex">
 							<div class="form-group mr-2">
 								<label for="" class="label">대여시간</label>
-<!-- 								<input type="text" class="form-control" name="rez_pick_time" id="time_pick" placeholder="픽업시간을 선택하세요"> -->
-								<input type="time" name="rez_pick_time" placeholder="대여시간을 선택하세요">
+								<input type="text" class="form-control" name="rez_pick_time" id="time_pick" placeholder="픽업시간을 선택하세요">
+<!-- 								<input type="time" name="rez_pick_time" placeholder="대여시간을 선택하세요"> -->
 							</div>
 							<div class="form-group mr-2">
 								<label for="" class="label">반납시간</label>
 <!-- 								<input type="text" class="form-control" name="rez_off_time" id="time_off" placeholder="반납시간을 선택하세요"> -->
-								<input type="time" name="rez_off_time" placeholder="반납시간을 선택하세요">
+									<input type="text" class="form-control" name="rez_off_time" id="time_off" placeholder="대여시간과 동일하게 설정됩니다">
+<!-- 								<input type="time" name="rez_off_time" placeholder="대여시간을 선택하세요"> -->
 							</div>
 						</div>
 			    		<div class="form-group">
 							<label for="" class="label">이용지점</label>
 							<select id="sido_select">
 						          <option value="" selected disabled hidden>==지역을 선택하세요==</option>	
-						          <option value="서울" >서울</option>
-						          <option value="부산" >부산</option>
+						          <option value="제주">제주</option>
+						          <option value="서울">서울</option>
+						          <option value="인천/경기">인천/경기</option>
+						          <option value="강원도">강원도</option>
+						          <option value="충청/대전">충청/대전</option>
+						          <option value="전라/광주">전라/광주</option>
+						          <option value="경상/부산/대구/울산">경상/부산/대구/울산</option>
 							</select>
-							<select id="site_select" name="jijum">
+							<select id="site_select">
 						          <option value="" selected disabled hidden>==지점을 선택하세요==</option>	
 							</select>
 						</div>           
@@ -111,8 +119,15 @@
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
+<!--   <script src="js/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/bootstrap-datepicker.ko.js"></script>
 
-  <script src="js/jquery.min.js"></script>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script> -->
+<!-- <script src="js/bootstrap-datepicker.ko.js"></script> -->
+
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
@@ -123,8 +138,6 @@
   <script src="js/jquery.magnific-popup.min.js"></script>
   <script src="js/aos.js"></script>
   <script src="js/jquery.animateNumber.min.js"></script>
-  <script src="js/bootstrap-datepicker.js"></script>
-  <script src="js/bootstrap-datepicker.ko.js"></script>
   <script src="js/jquery.timepicker.min.js"></script>
   <script src="js/scrollax.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
@@ -144,69 +157,87 @@ $(function() {
 // 	    console.log("A new date selection was made:" + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 // 	  });
 	  
-		$('#book_start_date').datepicker({
+		$('#start_date').datepicker({
 			  format: "yyyy-mm-dd",
 			  autoclose : true,	
 // 			  calendarWeeks : false,
 // 			  clearBtn : false, 
 // 			  showWeekDays : true ,
-			  todayHighlight : true ,
+// 			  todayHighlight : true ,
 			  language : "ko" ,
-			  startDate: new Date()
+			  startDate: new Date(),
 		}).on("changeDate", function(){
-		  $("#book_off_date").datepicker("setStartDate", new Date($("#book_start_date").val()));
+			  var start_date = new Date($("#start_date").val());
+			  var off_date = new Date(start_date);
+			  var off_date2 = new Date(start_date);
+			  off_date.setDate(start_date.getDate()+1);
+			  off_date2.setDate(start_date.getDate()+28);
+		  $("#off_date").datepicker("setStartDate", off_date);
+		  $("#off_date").datepicker("setEndDate", off_date2)
 		});
 		  
-		$('#book_off_date').datepicker({
+		$('#off_date').datepicker({
 			  format: "yyyy-mm-dd",
-			  
-			  
 			  autoclose : true,	
 // 			  calendarWeeks : false,
 // 			  clearBtn : false, 
 // 			  showWeekDays : true ,
-			  todayHighlight : true ,
+// 			  todayHighlight : true ,
 			  language : "ko",
-// 			  maxDate : "+30D"
 		}).on("changeDate", function(){
-		  $("#book_start_date").datepicker("setEndDate", new Date($("#book_off_date").val()));
-		  $()
-		});
-		
-		$('#book_off_date').change(function(){
-// 			console.log(a);
-// 			alert('성공');
+			var off_date2 = new Date($("#off_date").val());
+		  	$("#start_date").datepicker("setEndDate", off_date2);
+// 		  	alert('성공');
 			var rpick_d = new Date(document.fr.rez_pick_date.value);
 			var roff_d = new Date(document.fr.rez_off_date.value);
 			var ch = roff_d.getTime()-rpick_d.getTime();
 			var charDay = ch/(1000*60*60*24);
-			if(charDay >= 28){
+// 			$('#datealert').append("<h7>대여기간 : "+charDay+"일</h7>");
+// 			$('#datealert').remove();
+			if(charDay <= 28){
 // 		 		alert("단기렌트는 28일까지만 가능합니다.");
-// 				$('#datealert').remove();
-				$('#datealert').append("<h7>단기렌트는 28일까지만 가능합니다.</h7>");
+				$('#datealert').empty();
+// 				$('#datealert').append("<h7>단기렌트는 28일까지만 가능합니다.</h7>");
+				$('#datealert').append("<h7>대여기간 : 총 "+charDay+"일</h7>");
 // 				return false;
 				return;
-			} else {
+// 			} else {
 // 				$('#datealert').remove();
-				$('#datealert').append("대여기간 : 총 "+charDay+"일");
+				
 // 				return false;
-				return;
+// 				return;
 			}
 		});
+		
+// 		$('#off_date').change(function(){
+// // 			console.log(a);
+// 			alert('성공');
+// 			var rpick_d = new Date(document.fr.rez_pick_date.value);
+// 			var roff_d = new Date(document.fr.rez_off_date.value);
+// 			var ch = roff_d.getTime()-rpick_d.getTime();
+// 			var charDay = ch/(1000*60*60*24);
+// // 			if(charDay > 28){
+// // 		 		alert("단기렌트는 28일까지만 가능합니다.");
+// // 				$('#datealert').remove();
+// // 				$('#datealert').append("<h7>단기렌트는 28일까지만 가능합니다.</h7>");
+// // 				return false;
+// 				return;
+// // 			} else {
+// // 				$('#datealert').remove();
+// // 				$('#datealert').append("<h7>대여기간 : 총 "+charDay+"일</h7>");
+// // 				return false;
+// // 				return;
+// // 			}
+// 		});
 
-		$("#time_pick,#time_off").timepicker({
+		$('#time_pick').timepicker({
 			minTime: '9:00 am',
 		    maxTime: '9:00 pm',
 // 		    format: "hh:mm:ss"
 		});
 		
 		$('#time_pick').change(function(){
-			var rpick_t = document.fr.rez_pick_time.value;
-// 			var rpick_t = new Date(document.fr.rez_pick_time.value);
-			var tt = Date.parse(rpick_t);
-// 			var tt = rpick_t.getTime();
-// 			alert(rpick_t+10);
-			alert(tt);
+			document.fr.rez_off_time.value = document.fr.rez_pick_time.value;
 		});
 		
 		$("#sido_select").change(function(){
@@ -251,11 +282,6 @@ function checkForm(){
 	if(document.fr.rez_pick_time.value==""){
 		alert("대여시간을 선택해주세요");
 		document.fr.rez_pick_time.focus();
-		return false;
-	}
-	if(document.fr.rez_off_time.value==""){
-		alert("반납시간을 선택해주세요");
-		document.fr.rez_off_time.focus();
 		return false;
 	}
 	if(document.fr.sido_select.value=="" || document.fr.site_select.value==""){

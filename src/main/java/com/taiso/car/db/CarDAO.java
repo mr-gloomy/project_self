@@ -106,6 +106,7 @@ public class CarDAO {
 				cDTO.setCar_op(rs.getString("car_op"));
 				cDTO.setCar_price(rs.getInt("car_price"));
 				cDTO.setCar_year(rs.getInt("car_year"));
+				cDTO.setCar_site(rs.getString("car_site"));
 
 				carsList.add(cDTO);
 			}
@@ -118,6 +119,40 @@ public class CarDAO {
 		System.out.println(" DAO : 상품정보 조회 완료! ");
 		return carsList;
 	}// getCarList() 끝
+	
+	public CarDTO getCar(int car_code) {
+		CarDTO cDTO = new CarDTO();
+		
+		try {
+			con = getConnection();
+			sql = "select * from car where car_code=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, car_code);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				
+				cDTO.setCar_brand(rs.getString("car_brand"));
+				cDTO.setCar_category(rs.getString("car_category"));
+				cDTO.setCar_code(rs.getInt("car_code"));
+				cDTO.setCar_file(rs.getString("car_file"));
+				cDTO.setCar_fuel(rs.getString("car_fuel"));
+				cDTO.setCar_location(rs.getInt("car_location"));
+				cDTO.setCar_name(rs.getString("car_name"));
+				cDTO.setCar_op(rs.getString("car_op"));
+				cDTO.setCar_price(rs.getInt("car_price"));
+				cDTO.setCar_year(rs.getInt("car_year"));
+				cDTO.setCar_site(rs.getString("car_site"));
+			}
+			
+			System.out.println(" DAO : 글 1개정보 가져오기 완료 ");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeDB();
+		}
+		
+		return cDTO;
+	}
 	
 	
 }
