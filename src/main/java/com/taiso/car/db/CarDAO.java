@@ -52,15 +52,33 @@ public class CarDAO {
 		}
 	}// 자원해제 메서드-closeDB()
 	
-	// 카테고리에 대한 차 정보 가져오는 메서드
-//	public List getCarList(String item) {
-//		List car
-//		
-//		
-//	}
+	 // 차 전체 대수 확인 - getCarCount()
+	   public int getCarCount() {
+		   int cnt = 0;
+		   try {
+			con = getConnection();
+			sql="select count(*) from car";
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				cnt = rs.getInt("count(*)");
+			}
+			System.out.println(" DAO : 전체 차 대수 : " + cnt + "대");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeDB();
+		}
+		   return cnt;
+	   }
+	 // 차 전체 대수 확인 - getCarCount()
+	
 	
 	// 차정보 가져오는 메서드
-	public List getCarList(String item,String car_site) {
+	public List getCarList(int startRow,int pageSize,String item,String car_site) {
 		List carsList = new ArrayList();
 		StringBuffer SQL = new StringBuffer();
 		
@@ -73,20 +91,26 @@ public class CarDAO {
 			SQL.append("select * from car where car_site=?");
 			
 			if(item.equals("all")) {
+				SQL.append(" limit ?,?");
 				System.out.println(" DAO : all : " + SQL);
 			}
 			else {
-				SQL.append(" and car_category=?");
+				
+				SQL.append(" and car_category=? limit ?,?");
 				System.out.println(" DAO : car_categroy "+SQL);
 			}
 			pstmt = con.prepareStatement(SQL+"");
 			
 			if(item.equals("all")){
 				pstmt.setString(1, car_site);
+				pstmt.setInt(2, startRow-1); // 시작행 -1
+				pstmt.setInt(3, pageSize); // 갯수
 			}
 			else {
 				pstmt.setString(1, car_site);
 				pstmt.setString(2, item);
+				pstmt.setInt(3, startRow-1); // 시작행 -1
+				pstmt.setInt(4, pageSize); // 갯수
 			
 			}
 

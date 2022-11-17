@@ -62,75 +62,123 @@
 
 
 
-<%-- 			<c:set var="rDate" value="${rez_rentalDate }" /> --%>
-<%-- 			<c:set var="rtDate" value="${rez_returnDate }" /> --%>
-<%-- 			<c:set var="rSite" value="${rez_site }" /> --%>
-<%-- 			${rDate } ${rtDate } ${rSite } --%>
-			<!-- 카테고리 선택시 대여시간,장정보 파라메터가 ListAction에 안넘어가는 문제.
+	<%-- 			<c:set var="rDate" value="${rez_rentalDate }" /> --%>
+	<%-- 			<c:set var="rtDate" value="${rez_returnDate }" /> --%>
+	<%-- 			<c:set var="rSite" value="${rez_site }" /> --%>
+	<%-- 			${rDate } ${rtDate } ${rSite } --%>
+	<!-- 카테고리 선택시 대여시간,장정보 파라메터가 ListAction에 안넘어가는 문제.
 			1. 세션에 로그인정보와 함께 대여정보 저장해서 들고다니기 
 		    2. 카테고리 영역에 대여정보도 함께 들고가기 
 		    3. ... 기타 논의 필요 -->
-		   
-<%-- 		<c:set var="rDate" value="${rez_rentalDate }" /> --%>
-<%-- 		<c:set var="rtDate" value="${rez_returnDate }" /> --%>
-<%-- 		<c:set var="rSite" value="${rez_site }" /> --%>
-			
-		<section class="ftco-section bg-light">
-    	<div class="container">
-    		<div>
-    		
-				<a href="./CarList.ca">전체</a>
-				<a href="./CarList.ca?item=small">소형</a>
-				<a href="./CarList.ca?item=compact">준중형</a>
-				<a href="./CarList.ca?item=middle">중형</a> 
-				<a href="./CarList.ca?item=large">대형</a> 
-				<a href="./CarList.ca?item=suv">suv</a>
-				<a href="./CarList.ca?item=foreign">수입차</a>
-			</div>
-    		<div class="row">
-    		   <c:forEach var="cars" items="${carsList }">
-    			<div class="col-md-4">
-    				<div class="car-wrap rounded ftco-animate">
-    					<div class="img rounded d-flex align-items-end" style="background-image: url(./upload/${dto.car_file.split(',')[0] });">
-    					</div>
-    					<div class="text">
-    						<h2 class="mb-0"><a href="car-single.html">${cars.car_name }</a></h2>
-    						<div class="d-flex mb-3">
-	    						<span class="cat">${cars.car_brand }</span>
-	    						<p class="price ml-auto">
-	    							<fmt:formatNumber value="${cars.car_price }" />원
-	    						</p>
-    						</div>
-    						<p class="d-flex mb-0 d-block">
-								<a
-									href="./ReservationAction.rez?car_code=${cars.car_code }"
-									class="btn btn-primary py-2 mr-1">예약하기</a> <a
-									href="./ReviewListAction.rev?car_code=${cars.car_code }" class="btn btn-secondary py-2 ml-1">차량상세정보
-								</a>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    		   </c:forEach>
-    		</div>
 
-    	<div class="row mt-5">
-          <div class="col text-center">
-            <div class="block-27">
-              <ul>
-                <li><a href="#">&lt;</a></li>
-                <li class="active"><span>1</span></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&gt;</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-    	</div>
-    </section>
+	<%-- 		<c:set var="rDate" value="${rez_rentalDate }" /> --%>
+	<%-- 		<c:set var="rtDate" value="${rez_returnDate }" /> --%>
+	<%-- 		<c:set var="rSite" value="${rez_site }" /> --%>
+
+	<section class="ftco-section bg-light">
+
+		<div class="container">
+			<div>
+				<a href="./CarList.ca">전체</a> <a href="./CarList.ca?item=small">소형</a>
+				<a href="./CarList.ca?item=compact">준중형</a> <a
+					href="./CarList.ca?item=middle">중형</a> <a
+					href="./CarList.ca?item=large">대형</a> <a
+					href="./CarList.ca?item=suv">suv</a> <a
+					href="./CarList.ca?item=foreign">수입차</a>
+			</div>
+			<div class="row">
+				<c:forEach var="cars" items="${carsList }">
+					<div class="col-md-4">
+						<div class="car-wrap rounded ftco-animate">
+							<div class="img rounded d-flex align-items-end"
+								style="background-image: url(./upload/${dto.car_file.split(',')[0] });">
+							</div>
+							<div class="text">
+								<h2 class="mb-0">
+									<a href="car-single.html">${cars.car_name }</a>
+								</h2>
+								<div class="d-flex mb-3">
+									<span class="cat">${cars.car_brand }</span>
+									<p class="price ml-auto">
+										<fmt:formatNumber value="${cars.car_price }" />
+										원
+									</p>
+								</div>
+								<p class="d-flex mb-0 d-block">
+									<a href="./ReservationAction.rez?car_code=${cars.car_code }"
+										class="btn btn-primary py-2 mr-1">예약하기</a> <a
+										href="./ReviewListAction.rev?car_code=${cars.car_code }"
+										class="btn btn-secondary py-2 ml-1">차량상세정보 </a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+
+			<!-- 페이지처리 -->
+
+			<!--     	<div class="row mt-5"> -->
+			<!--           <div class="col text-center"> -->
+			<!--             <div class="block-27"> -->
+			<%-- 	  		 <c:if test="${totalCnt != 0}"> --%>
+			<!--                 페이지번호 -->
+			<%--                 <c:forEach var="i" begin="${startPage }" end="${endPage }" step="1"> --%>
+			<%-- 		         	 <a href="./CarList.ca?pageNum=${i }" class="btn btn-outline-primary" >${i }</a>  --%>
+			<%-- 		    	</c:forEach>   --%>
+			<%-- 			 </c:if> --%>
+			<!-- 		   </div>	 -->
+			<!-- 		    </div> -->
+			<!--           </div> -->
+			<c:if test="${totalCnt != 0 }">
+
+				<!-- 이전 -->
+				<c:if test="${startPage > pageBlock }">
+					<a href="./CarList.ca?pageNum=${startPage-pageBlock }">[이전]</a>
+				</c:if>
+				<!--     	<div class="row mt-5"> -->
+				<div class="col text-center">
+					<div class="block-27">
+						<ul>
+							<!-- 페이지 번호(1,2,3...) -->
+							<c:forEach var="i" begin="${startPage }" end="${endPage }"
+								step="1">
+								<%-- 			<c:if test="${startPage }"> --%>
+								
+								<li class="active"><span>
+								<a href="./CarList.ca?pageNum=${i }">${i }</a></span></li>
+								
+								<%-- 			</c:if> --%>
+							</c:forEach>
+						</ul>
+					</div>
+				</div>
+
+		<!-- 다음 -->
+		<c:if test="${endPage < pageCount }">
+			<a href="./CarList.ca?pageNum=${startPage+pageBlock }">[다음]</a>
+		</c:if>
+
+		</c:if>
+
+
+		<!--     	<div class="row mt-5"> -->
+		<!--           <div class="col text-center"> -->
+		<!--             <div class="block-27"> -->
+		<!--               <ul> -->
+		<!--                 <li><a href="#">&lt;</a></li> -->
+		<!--                 <li class="active"><span>1</span></li> -->
+		<!--                 <li><a href="#">2</a></li> -->
+		<!--                 <li><a href="#">3</a></li> -->
+		<!--                 <li><a href="#">4</a></li> -->
+		<!--                 <li><a href="#">5</a></li> -->
+		<!--                 <li><a href="#">&gt;</a></li> -->
+		<!--               </ul> -->
+		<!--             </div> -->
+		<!--           </div> -->
+		<!--         </div> -->
+		</div>
+	</section>
 
 
 
