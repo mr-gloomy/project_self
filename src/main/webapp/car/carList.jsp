@@ -143,40 +143,45 @@
 							<!-- 페이지 번호(1,2,3...) -->
 							<c:forEach var="i" begin="${startPage }" end="${endPage }"
 								step="1">
-								<%-- 			<c:if test="${startPage }"> --%>
+							
+
+									<li <c:if test="${pageNum == i }">class="active" </c:if>
+										
+									>
+								<span>
+								<a href="./CarList.ca?pageNum=${i }">${i }</a>
+								</span>
+								</li>
 								
-								<li class="active"><span>
-								<a href="./CarList.ca?pageNum=${i }">${i }</a></span></li>
-								
-								<%-- 			</c:if> --%>
+
 							</c:forEach>
 						</ul>
 					</div>
 				</div>
 
-		<!-- 다음 -->
-		<c:if test="${endPage < pageCount }">
-			<a href="./CarList.ca?pageNum=${startPage+pageBlock }">[다음]</a>
-		</c:if>
+				<!-- 다음 -->
+				<c:if test="${endPage < pageCount }">
+					<a href="./CarList.ca?pageNum=${startPage+pageBlock }">[다음]</a>
+				</c:if>
 
-		</c:if>
+			</c:if>
 
 
-		<!--     	<div class="row mt-5"> -->
-		<!--           <div class="col text-center"> -->
-		<!--             <div class="block-27"> -->
-		<!--               <ul> -->
-		<!--                 <li><a href="#">&lt;</a></li> -->
-		<!--                 <li class="active"><span>1</span></li> -->
-		<!--                 <li><a href="#">2</a></li> -->
-		<!--                 <li><a href="#">3</a></li> -->
-		<!--                 <li><a href="#">4</a></li> -->
-		<!--                 <li><a href="#">5</a></li> -->
-		<!--                 <li><a href="#">&gt;</a></li> -->
-		<!--               </ul> -->
-		<!--             </div> -->
-		<!--           </div> -->
-		<!--         </div> -->
+			<!--     	<div class="row mt-5"> -->
+			<!--           <div class="col text-center"> -->
+			<!--             <div class="block-27"> -->
+			<!--               <ul> -->
+			<!--                 <li><a href="#">&lt;</a></li> -->
+			<!--                 <li class="active"><span>1</span></li> -->
+			<!--                 <li><a href="#">2</a></li> -->
+			<!--                 <li><a href="#">3</a></li> -->
+			<!--                 <li><a href="#">4</a></li> -->
+			<!--                 <li><a href="#">5</a></li> -->
+			<!--                 <li><a href="#">&gt;</a></li> -->
+			<!--               </ul> -->
+			<!--             </div> -->
+			<!--           </div> -->
+			<!--         </div> -->
 		</div>
 	</section>
 

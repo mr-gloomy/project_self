@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="./css/flaticon.css">
 <link rel="stylesheet" href="./css/icomoon.css">
 <link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 <style type="text/css">
 body {
 	padding: 1.5em;
@@ -108,9 +109,37 @@ a {
 	}
 }
 </style>
+<script type="text/javascript">
+	function deleteCar(seq){
+		Swal.fire({
+		  title: '글을 삭제 하시겠습니까?',
+		  text: "삭제하시면 다시 복구시킬 수 없습니다.",
+		  icon: 'info',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: 'grey',
+		  confirmButtonText: '삭제',
+		  cancelButtonText: '취소'
+		}).then((result) => {
+		  if (result.value) {
+	          //"등록" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
+			  location.href='./AdminCarDelete.ad?car_code='+seq;
+		  }
+		})
+	}
+	
+// 	function test(car_code) {
+//         if (!confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+//             alert("취소(아니오)를 누르셨습니다.");
+//         } else {
+//             alert("확인(예)을 누르셨습니다.");
+//             location.href='./AdminCarDelete.ad?car_code='+car_code;
+//         }
+//     }
+	</script>
 </head>
 <body>
-
+	
 	<jsp:include page="../inc/top.jsp"></jsp:include>
 
 	<section class="hero-wrap hero-wrap-2 js-fullheight"
@@ -164,8 +193,18 @@ a {
 	    <td>${dto.car_year }</td>
 	    <td>
 	    <a href="./AdminCarUpdate.ad?car_code=${dto.car_code }">수정</a>
+<%-- 	    <button onclick="./AdminCarUpdate.ad?car_code=${dto.car_code }">수정</button> --%>
 	    /
-	    <a href="./AdminCarDelete.ad?car_code=${dto.car_code }">삭제</a>
+<%-- 	    	<c:set var= "code" value="${dto.car_code }"/> --%>
+	    
+<!-- 	    <input type = "button" value = "삭제" onclick="deleteCar();"> -->
+		<button onclick="deleteCar(${dto.car_code });">삭제</button>
+<%-- 	    <a href="deleteCar(${dto.car_code });">삭제</a> --%>
+		
+		
+
+	    
+<%-- 	    <a href="./AdminCarDelete.ad?car_code=${dto.car_code }">삭제</a> --%>
 	    </td>
     </tr>
 	</c:forEach>
@@ -184,21 +223,33 @@ a {
 					
 
 			<!-- 페이징처리 -->
-			<div class="row mt-5">
-				<div class="col text-center">
-					<div class="block-27">
-						<ul>
-							<li><a href="#">&lt;</a></li>
-							<li class="active"><span>1</span></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">&gt;</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
+          	<c:if test="${totalCnt != 0 }">
+	
+		<!-- 이전 -->
+		<c:if test="${startPage > pageBlock }">
+			<a href="./CarList.ca?pageNum=${startPage-pageBlock }">[이전]</a>
+		</c:if>
+		<!--     	<div class="row mt-5"> -->
+          <div class="col text-center">
+            <div class="block-27">
+              <ul>
+		<!-- 페이지 번호(1,2,3...) -->
+		<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
+<%-- 			<c:if test="${startPage }"> --%>
+			<li class="active"><span><a href="./AdminCarList.ad?pageNum=${i }">${i }</a></span></li>
+<%-- 			</c:if> --%>
+		</c:forEach>
+		        </ul>
+            </div>
+          </div>
+        </div>
+		
+		<!-- 다음 -->
+		<c:if test="${endPage < pageCount }">
+			<a href="./AdminCarList.ad?pageNum=${startPage+pageBlock }">[다음]</a>
+		</c:if>
+	
+	</c:if>
 		</div>
 	</section>
 
@@ -235,6 +286,7 @@ a {
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 	<script src="./js/google-map.js"></script>
 	<script src="./js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
 </body>
 </html>

@@ -15,6 +15,7 @@ public class CarDTO {
 	private String car_file;
 	private int car_year;
 	private String car_fuel;
+	private String car_site;
 	
 	
 	

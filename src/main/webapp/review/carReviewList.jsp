@@ -114,7 +114,7 @@
 									<div class="col-md-4">
 										<ul class="features">
 										
-										
+											
 											<c:if test="${not empty option }">
 												<li class="check"><span class="ion-ios-checkmark"></span>${option }</li>
 											</c:if>

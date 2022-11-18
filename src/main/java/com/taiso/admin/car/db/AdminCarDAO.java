@@ -26,7 +26,7 @@ public class AdminCarDAO {
 			  // Context 객체 생성 (JNDI API)-자바네이밍디렉토리인터페이스
 			  Context initCTX = new InitialContext();
 			  // 디비연동정보 불러오기 (context.xml 파일정보)
-			  DataSource ds= (DataSource)initCTX.lookup("java:comp/env/jdbc/taiso2");
+			  DataSource ds= (DataSource)initCTX.lookup("java:comp/env/jdbc/project_taiso");
 			  
 			  // 디비정보(연결) 불러오기
 			  con = ds.getConnection();
@@ -66,8 +66,8 @@ public class AdminCarDAO {
 				System.out.println(" DAO : car_code : " + car_code);
 				
 				// 2. 상품 등록
-				sql = "insert into car(car_code,car_brand,car_name,car_location,car_price,car_op,car_category,car_file,car_year,car_fuel) "
-						+ "value(?,?,?,?,?,?,?,?,?,?)";
+				sql = "insert into car(car_code,car_brand,car_name,car_location,car_site,car_price,car_op,car_category,car_file,car_year,car_fuel) "
+						+ "value(?,?,?,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql);
 				
 				// ???
@@ -75,12 +75,13 @@ public class AdminCarDAO {
 				pstmt.setString(2, cDTO.getCar_brand());
 				pstmt.setString(3, cDTO.getCar_name());
 				pstmt.setInt(4, cDTO.getCar_location());
-				pstmt.setInt(5, cDTO.getCar_price());
-				pstmt.setString(6, cDTO.getCar_op());
-				pstmt.setString(7, cDTO.getCar_category());
-				pstmt.setString(8, cDTO.getCar_file());
-				pstmt.setInt(9, cDTO.getCar_year());
-				pstmt.setString(10, cDTO.getCar_fuel());
+				pstmt.setString(5, cDTO.getCar_site());
+				pstmt.setInt(6, cDTO.getCar_price());
+				pstmt.setString(7, cDTO.getCar_op());
+				pstmt.setString(8, cDTO.getCar_category());
+				pstmt.setString(9, cDTO.getCar_file());
+				pstmt.setInt(10, cDTO.getCar_year());
+				pstmt.setString(11, cDTO.getCar_fuel());
 				
 				pstmt.executeUpdate();
 				
@@ -92,19 +93,67 @@ public class AdminCarDAO {
 			}
 		  }
 		// 상품등록메서드 - insertCar(DTO)
-		  
-		// 상품 리스트 - getAdminCarList()
-		  public List getAdminCarList() {
+		
+		 // 차 전체 대수 확인 - getCarCount()
+		   public int getCarCount() {
+			   int cnt = 0;
+			   try {
+				con = getConnection();
+				sql="select count(*) from car";
+				pstmt = con.prepareStatement(sql);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					cnt = rs.getInt("count(*)");
+				}
+				System.out.println(" DAO : 전체 차 대수 : " + cnt + "대");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeDB();
+			}
+			   return cnt;
+		   }
+		 // 차 전체 대수 확인 - getCarCount()
+		   
+		// 상품 리스트 - getAdminCarList(int startRow, int pageSize)
+		  public List getAdminCarList(int startRow, int pageSize,String item) {
 			  List adminCarList = new ArrayList();
+			  StringBuffer SQL = new StringBuffer();
+				
+				CarDTO cDTO = null;
 			  try {
 				con = getConnection();
-				sql = "select * from car";
-				pstmt = con.prepareStatement(sql);
+				SQL.append("select * from car");
+				
+				if(item.equals("all")) {
+					SQL.append(" limit ?,?");
+					System.out.println(" DAO : all : " + SQL);
+				}
+				else {
+					SQL.append(" where car_category=? limit ?,?");
+					System.out.println(" DAO : car_categroy "+SQL);
+				}
+				pstmt = con.prepareStatement(SQL+"");
+				
+				if(item.equals("all")){
+					// ?????
+					pstmt.setInt(1, startRow-1); // 시작행 -1
+					pstmt.setInt(2, pageSize); // 갯수
+				}
+				else {
+					// ?????
+					pstmt.setString(1, item);
+					pstmt.setInt(2, startRow-1); // 시작행 -1
+					pstmt.setInt(3, pageSize); // 갯수
+				}
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
 					// DB(테이블) -> DTO -> List
-					CarDTO cDTO = new CarDTO();
+					cDTO = new CarDTO();
 					
 					cDTO.setCar_brand(rs.getString("car_brand"));
 					cDTO.setCar_category(rs.getString("car_category"));
@@ -116,7 +165,8 @@ public class AdminCarDAO {
 					cDTO.setCar_op(rs.getString("car_op"));
 					cDTO.setCar_price(rs.getInt("car_price"));
 					cDTO.setCar_year(rs.getInt("car_year"));
-					
+					cDTO.setCar_site(rs.getString("car_site"));
+
 					adminCarList.add(cDTO);
 				} // while
 					System.out.println(" DAO : 관리자 상품리스트 저장완료! ");
@@ -208,5 +258,6 @@ public class AdminCarDAO {
 				e.printStackTrace();
 			}
 		  }
-		// 상품 삭제 - adminDeleteGood()
+		// 상품 삭제 - adminDeleteCar()
+
 }
